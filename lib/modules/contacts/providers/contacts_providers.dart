@@ -10,3 +10,5 @@ final contactListProvider = FutureProvider.autoDispose((ref) async {
 final allContactsMapProvider = FutureProvider.autoDispose((ref) async {
   return await ref.read(contactsServiceProvider).getAllContactsGroupByFirstCharacter();
 });
+
+final selectedCharacterProvider = StateProvider.autoDispose((ref) => 'All');

@@ -5,7 +5,9 @@ class ContactsService {
   Future<List<Contact>> getAllContacts() async {
     try {
       if (await FlutterContacts.requestPermission()) {
-        return await FlutterContacts.getContacts();
+        return await FlutterContacts.getContacts(
+          withProperties: true,
+        );
       }
     } catch (error, stck) {
       debugPrint(error.toString());
@@ -20,6 +22,8 @@ class ContactsService {
 
     try {
       final allContacts = await getAllContacts();
+
+      resultMap['All'] = allContacts;
 
       for (var contact in allContacts) {
         final key = (contact.displayName.isNotEmpty ? contact.displayName[0] : '.').toUpperCase();
