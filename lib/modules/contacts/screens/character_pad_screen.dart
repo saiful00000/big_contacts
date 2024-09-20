@@ -1,6 +1,8 @@
 import 'package:contacts_x/modules/contacts/providers/contacts_providers.dart';
+import 'package:contacts_x/modules/contacts/widgets/contact_action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CharacterPadScreen extends ConsumerStatefulWidget {
   static const routeName = 'CharacterPadScreen';
@@ -87,64 +89,38 @@ class _CharacterPadScreenState extends ConsumerState<CharacterPadScreen> {
                                     Row(
                                       children: [
                                         Expanded(
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: Colors.green.shade400,
-                                              borderRadius: BorderRadius.circular(5),
-                                            ),
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 10,
-                                              horizontal: 16,
-                                            ),
-                                            child: const Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Icon(
-                                                  Icons.call,
-                                                  color: Colors.white,
-                                                ),
-                                                SizedBox(width: 4),
-                                                Text(
-                                                  'Call',
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 16,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                          child: ContactActionButton(
+                                            text: 'Call',
+                                            iconData: Icons.call,
+                                            contentColor: Colors.white,
+                                            color: Colors.green.shade400,
+                                            onTap: () {
+                                              try {
+                                                launchUrl(Uri(scheme: 'tel', path: contact.phones.first.number));
+                                              } catch (error, stck) {
+                                                debugPrint(error.toString());
+                                                debugPrint(stck.toString());
+                                              }
+                                            },
                                           ),
                                         ),
                                         const SizedBox(width: 10),
                                         Expanded(
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: Colors.deepOrange.shade400,
-                                              borderRadius: BorderRadius.circular(5),
-                                            ),
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 10,
-                                              horizontal: 16,
-                                            ),
-                                            child: const Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Icon(
-                                                  Icons.email,
-                                                  color: Colors.white,
-                                                ),
-                                                SizedBox(width: 4),
-                                                Text(
-                                                  'SMS',
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 16,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                          child: ContactActionButton(
+                                            text: 'SMS',
+                                            iconData: Icons.email,
+                                            contentColor: Colors.white,
+                                            color: Colors.deepOrange.shade400,
+                                            onTap: () {
+                                              try {
+                                                launchUrl(Uri(
+                                                    scheme: 'sms',
+                                                    path: contact.phones.first.number));
+                                              } catch (error, stck) {
+                                                debugPrint(error.toString());
+                                                debugPrint(stck.toString());
+                                              }
+                                            },
                                           ),
                                         ),
                                       ],
